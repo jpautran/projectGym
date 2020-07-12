@@ -33,6 +33,7 @@ module.exports = {
         ]
 
         db.query(query, values, function(err, results) {
+            console.log(results.rows[0]);
             if(err) throw `Database Error! ${err}`;
             callback(results.rows[0]);
         });
