@@ -10,7 +10,9 @@ module.exports = {
        });
     },
     create(req, res) {
-        return res.render('members/create');
+        Member.instrutorsSelectOptions(function(options) {
+            return res.render('members/create', { instructorOptions: options});
+        });
     },
     post(req, res) {
         const keys = Object.keys(req.body);
@@ -38,9 +40,11 @@ module.exports = {
         Member.find(req.params.id, function(member) {
             if(!member) return res.send("Member not found!");
 
-            member.birth = date(member.birth).iso;  
+            member.birth = date(member.birth).iso;
 
-            return res.render("members/edit", { member });
+            Member.instrutorsSelectOptions(function(options) {
+                return res.render('members/edit', { member, instructorOptions: options});
+            });
         });
     },
     put(req, res) {
