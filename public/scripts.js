@@ -1,3 +1,5 @@
+const { create } = require("../src/app/models/Instructors");
+
 const currentPage = location.pathname;
 const menuItems = document.querySelectorAll("header .links a");
 
@@ -37,20 +39,32 @@ function paginate(selectedPage, totalPages) {
     return pages
 }
 
-const pagination = document.querySelector(".pagination");
-const page = +pagination.dataset.page;
-const total = +pagination.dataset.total;
-const pages = paginate(page, total);
+function createPagination(pagination) {
 
-let elements = "";
+    const filter = pagination.dataset.filter;
+    const page = +pagination.dataset.page;
+    const total = +pagination.dataset.total;
+    const pages = paginate(page, total);
 
-for (let page of pages) {
-    if(String(page).includes("...")) {
-        elements += `<span>${page}</span>`
-    } else {
-        elements += `<a href="?page=${page}">${page}</a>`
+    let elements = "";
+
+    for (let page of pages) {
+        if(String(page).includes("...")) {
+            elements += `<span>${page}</span>`
+        } else {
+            if ( filter ) {
+                elements += `<a href="?page=${page}&filter=${filter}">${page}</a>`
+            } else {
+                elements += `<a href="?page=${page}">${page}</a>`
+            }
+        }
     }
 
+    pagination.innerHTML = elements;
 }
 
-pagination.innerHTML = elements;
+const pagination = document.querySelector(".pagination");
+
+if (pagination) {
+    createPagination(pagination)
+}

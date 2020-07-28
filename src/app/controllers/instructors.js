@@ -28,7 +28,7 @@ module.exports = {
         }
 
         Instructor.paginate(params);
-
+        
     },
     create(req, res) {
         return res.render('instructors/create');
